@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://World.gd" type="Script" id=1]
+[ext_resource path="res://Roca.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Curve2D" id=1]
+
+bake_interval = 5.0
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -2.61987, 1.83516, 0, 0, 0, 0, 635.843, 3.68578, 0, 0, 0, 0, 637.694, 958.604, 0, 0, 0, 0, -2.61987, 956.753, 0, 0, 0, 0, -2.61987, 1.83516 )
+}
+
+[node name="World" type="Node" index="0"]
+
+script = ExtResource( 1 )
+Roca = ExtResource( 2 )
+
+[node name="Player" parent="." index="0" instance=ExtResource( 3 )]
+
+[node name="R_Timer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 0.4
+one_shot = false
+autostart = false
+
+[node name="Sc_Timer" type="Timer" parent="." index="2"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="B_Timer" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = true
+autostart = false
+
+[node name="Position_B" type="Position2D" parent="." index="4"]
+
+position = Vector2( 320, 480 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Camino" type="Path2D" parent="." index="5"]
+
+self_modulate = Color( 0.5, 0.6, 1, 0.7 )
+curve = SubResource( 1 )
+
+[node name="Roca_Pos" type="PathFollow2D" parent="Camino" index="0"]
+
+position = Vector2( -2.61987, 1.83516 )
+rotation = 0.00289855
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = true
+lookahead = 4.0
+
+[connection signal="golpe" from="Player" to="." method="Game_Over"]
+
+[connection signal="timeout" from="R_Timer" to="." method="_on_R_Timer_timeout"]
+
+[connection signal="timeout" from="Sc_Timer" to="." method="_on_Sc_Timer_timeout"]
+
+[connection signal="timeout" from="B_Timer" to="." method="_on_B_Timer_timeout"]
+
+
